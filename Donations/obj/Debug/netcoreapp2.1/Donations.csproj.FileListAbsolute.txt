@@ -1,0 +1,12 @@
+C:\Users\Roman\source\repos\Donations\Donations\bin\Debug\netcoreapp2.1\Source.txt
+C:\Users\Roman\source\repos\Donations\Donations\bin\Debug\netcoreapp2.1\Donations.deps.json
+C:\Users\Roman\source\repos\Donations\Donations\bin\Debug\netcoreapp2.1\Donations.runtimeconfig.json
+C:\Users\Roman\source\repos\Donations\Donations\bin\Debug\netcoreapp2.1\Donations.runtimeconfig.dev.json
+C:\Users\Roman\source\repos\Donations\Donations\bin\Debug\netcoreapp2.1\Donations.dll
+C:\Users\Roman\source\repos\Donations\Donations\bin\Debug\netcoreapp2.1\Donations.pdb
+C:\Users\Roman\source\repos\Donations\Donations\obj\Debug\netcoreapp2.1\Donations.csproj.CoreCompileInputs.cache
+C:\Users\Roman\source\repos\Donations\Donations\obj\Debug\netcoreapp2.1\Donations.AssemblyInfoInputs.cache
+C:\Users\Roman\source\repos\Donations\Donations\obj\Debug\netcoreapp2.1\Donations.AssemblyInfo.cs
+C:\Users\Roman\source\repos\Donations\Donations\obj\Debug\netcoreapp2.1\Donations.dll
+C:\Users\Roman\source\repos\Donations\Donations\obj\Debug\netcoreapp2.1\Donations.pdb
+C:\Users\Roman\source\repos\Donations\Donations\bin\Debug\netcoreapp2.1\Donations.txt
