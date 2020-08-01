@@ -28,7 +28,7 @@ namespace Donations.BuildingIndex
                             break;
 
                         char c = (char)resp;
-                        if (c == '.')
+                        if (c == '\n')
                         {
                             var splitted = line.ToString().Split(',');
                             var currentNode = new Node() { Value = splitted[0].Last().ToString(), Offset = position, Length = line.Length - splitted[0].Length + 1};

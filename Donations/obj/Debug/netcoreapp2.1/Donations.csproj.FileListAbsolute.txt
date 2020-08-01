@@ -10,3 +10,4 @@ C:\Users\Roman\source\repos\Donations\Donations\obj\Debug\netcoreapp2.1\Donation
 C:\Users\Roman\source\repos\Donations\Donations\obj\Debug\netcoreapp2.1\Donations.dll
 C:\Users\Roman\source\repos\Donations\Donations\obj\Debug\netcoreapp2.1\Donations.pdb
 C:\Users\Roman\source\repos\Donations\Donations\bin\Debug\netcoreapp2.1\Donations.txt
+C:\Users\Roman\source\repos\Donations\Donations\obj\Debug\netcoreapp2.1\Donations.csprojAssemblyReference.cache

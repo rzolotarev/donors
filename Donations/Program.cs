@@ -32,9 +32,7 @@ namespace Donations
                             donorReader.DiscardBufferedData();
 
                             var buffer = new char[node.Length];
-                            if (donorReader.Read(buffer, 0, buffer.Length) == -1)
-                                break;
-
+                            donorReader.Read(buffer, 0, buffer.Length);
                             
                             var line = string.Concat(buffer);
                             var state = line.Split(',')[1].Trim();
