@@ -77,9 +77,12 @@ namespace Donations.Nodes
             newPage.Add(current.Next);
             newPage.MarkPageForNodes(current.Next);
 
+            node.NextLess = node.OwningPage;
+            node.NextGreater = newPage;
             if (ParentPage == null)
             {
                 ParentPage = new Page();
+                node.OwningPage = ParentPage;
                 node.NextLess = this;
                 node.NextGreater = newPage;
                 return;
