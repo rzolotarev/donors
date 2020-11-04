@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Donors\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>

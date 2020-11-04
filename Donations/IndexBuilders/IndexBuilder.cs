@@ -13,6 +13,7 @@ namespace Donations.IndexBuilders
         public void Build(string donorsFileName)
         {
             var rootPage = new Page();
+            rootPage.IsLeaf = true;
             Page.RootPagePath = rootPage.FileName;
             rootPage.Save();
 
@@ -30,7 +31,7 @@ namespace Donations.IndexBuilders
                         var splitted = line.ToString().Split(',', StringSplitOptions.RemoveEmptyEntries);
                         var newNode = new Node() { Key = splitted[0], Position = position };
 
-                        var page = Seeker.FindPage(splitted[0], Page.RootPagePath);
+                        var page = Seeker.FindLeafPage(newNode, rootPage);
                         page.Add(newNode);
                         line.Clear();
                     }

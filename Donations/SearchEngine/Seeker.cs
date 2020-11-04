@@ -9,13 +9,13 @@ namespace Donations.SearchEngine
 {
     public class Seeker
     {
-        public static BinaryFormatter binFormatter = new BinaryFormatter();        
+        public static BinaryFormatter binFormatter = new BinaryFormatter();
 
         public static Node FindNode(string id)
         {
             var page = FindPage(id, Page.RootPagePath);
             var current = page.Head;
-            while(current != null)
+            while (current != null)
             {
                 if (current.Key == id)
                     return current;
@@ -39,40 +39,29 @@ namespace Donations.SearchEngine
             return node;
         }
 
-        public static Page FindPage(string value, string rootPagePath)
-        {            
-            using (var fs = new FileStream(rootPagePath, FileMode.Open))
+        public static Page FindLeafPage(Node value, Page page)
+        {
+            if (page.IsLeaf)
+                return page;
+
+            var currentNode = page.Head;
+            var compared = string.Compare(value.Key, currentNode.Key);
+            if (compared < 0)
+                return FindLeafPage(value, currentNode.NextLess);
+
+            while (currentNode.Next != null)
             {
-                var page = (Page)binFormatter.Deserialize(fs);
+                currentNode = currentNode.Next;
+                if (string.Compare(value.Key, currentNode.Key) < 0)
+                    return FindLeafPage(value, currentNode.NextLess);
+            }
 
-                if (page.Count == 0)
-                    return page;
-                
-                var currentNode = page.Head;
-                if (currentNode.NextGreater == null && currentNode.NextLess == null)
-                    return page;
+            return currentNode.NextGreater;
+        }
 
-                var compared = string.Compare(value, currentNode.Key);
-                if (compared < 0)
-                    return FindPage(value, currentNode.NextLess.FileName);
-
-                while (currentNode.Next != null)
-                {
-                    var compared1 = string.Compare(value, currentNode.Key);                    
-                    var compared2 = string.Compare(value, currentNode.Next.Key);
-                    if (compared1 >= 0 && compared2 < 0)
-                    {
-                        if (currentNode.NextGreater != null)
-                            return FindPage(value, currentNode.NextGreater.FileName);
-                        else
-                            return page;
-                    }
-
-                    currentNode = currentNode.Next;
-                }
-
-                return FindPage(value, currentNode.NextGreater.FileName);
-            }            
+        public static Page FindPage(string value, string page)
+        {
+            throw new NotSupportedException("");
         }
     }
 }

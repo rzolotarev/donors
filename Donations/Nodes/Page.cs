@@ -14,137 +14,87 @@ namespace Donations.Nodes
         public Node Head { get; set; }
         public Node Parent { get; set; }
         public string FileName { get; set; }
-        public int PageCapacity = 3;
+        public int PageCapacity = 4; // for comport splitting it's useful to have even number of nodes
+        public bool IsLeaf { get; set; }
+        public Page ParentPage { get; set; }
 
         public static string RootPagePath { get; set; }        
 
-        public Page(int count = 0)
+        public Page()
         {
             var guid = Guid.NewGuid();
             FileName = guid.ToString();
-            
-            Count = count;
+            Head = new Node();
+            Count = 0;
         }
 
-        private void SimpleAdd(Node node, Page page)
+        public void MarkPageForNodes(Node node)
         {
-            node.Page = this;
-            var current = page.Head;
-
-            if (current == null)
+            while(node != null)
             {
-                Count++;
-                page.Head = node;                
+                node.OwningPage = this;
+                node = node.Next;
+            }
+        }
+
+        private void SimpleAdd(Node node)
+        {
+            node.OwningPage = this;
+            if (Head.Next == null)
+            {
+                Head.Next = node;
+                node.Prev = Head;
                 return;
             }
-            if (current.Next == null)
-            {
-                Count++;
-                var compared = string.Compare(current.Key, node.Key);
-                if (compared <= 0)
-                {
-                    page.Head.Next = node;
-                }
-                else
-                {
-                    node.Next = page.Head;
-                    page.Head = node;
-                }
-                return;
-            }
-            while (current.Next != null)
-            {
-                var comparedLess = string.Compare(node.Key, current.Key);
-                var comparedGreater = string.Compare(node.Key, current.Next.Key);
-                if (comparedLess < 0 && current == page.Head)
-                {
-                    Count++;
-                    page.Head = node;
-                    node.Next = current;
-                    return;
-                }
-                if (comparedLess >= 0 && comparedGreater <= 0)
-                {
-                    Count++;
-                    node.Next = current.Next;
-                    current.Next = node;
-                    return;
-                }
 
+            var current = Head;
+            while(current.Next != null)
+            {
                 current = current.Next;
+                if(string.Compare(current.Key, node.Key) < 0)
+                {
+                    node.Next = current;
+                    node.Prev = current.Prev;
+                    current.Prev = node;
+                    return;
+                }                
             }
 
+            node.Prev = current;
             current.Next = node;
         }
 
         private void AddWithSplitting(Node node)
         {
-            var edge = Count % 2 == 0 ? Count / 2 : Count / 2 + 1;
-            var counter = 0;
-            var current = Head;
-            Node prev = null;
-            while (counter < edge)
-            {                
-                counter++;
-                prev = current;
+            SimpleAdd(node);
+            var edge = PageCapacity / 2;
+
+            var current = this.Head;
+            for(var i = 0; i <= edge; i++)
                 current = current.Next;
-            }
 
-            var newPage = new Page(Count - edge);            
-            newPage.Head = current;
-            prev.Next = null;
-            newPage.Save();
+            var newPage = new Page();
+            newPage.Add(current.Next);
+            newPage.MarkPageForNodes(current.Next);
 
-            Count = edge;
-
-            // creating new node
-            var parentNode = new Node() { Key = newPage.Head.Key };
-            parentNode.NextLess = this;
-            parentNode.NextGreater = newPage;
-
-            // setting refs to the new parent node
-            if (Parent == null)
+            if (ParentPage == null)
             {
-                Parent = parentNode;
+                ParentPage = new Page();
+                node.NextLess = this;
+                node.NextGreater = newPage;
+                return;
             }
-            
-            if (newPage.Parent == null)
-                newPage.Parent = parentNode;
 
-            // added new node
-            var compared = string.Compare(newPage.Head.Key, node.Key);
-            if (compared > 0)
-                SimpleAdd(node, this);
-            else
-                SimpleAdd(node, newPage);
-
-            // adding parent node to the parent page
-            if (Parent.Page == null)
-            {                
-                Parent.Page = new Page(1); // node - page
-                RootPagePath = Parent.Page.FileName;
-            }
-            Parent.Page.Add(parentNode); // page - node
-            
+            ParentPage.Add(current);            
         }
-
-        //TODO: set count to 500
+        
         public void Add(Node node)
         {
-            if (Count < PageCapacity)
-                SimpleAdd(node, this);            
-            else            
+            if (Count == PageCapacity)
                 AddWithSplitting(node);
-
-            Save();
+            else
+                SimpleAdd(node);            
         }
-
-        public static void AddNode(Node node)
-        {
-            var page = Seeker.FindPage(node.Key, RootPagePath);
-            page.Add(node);
-        }
-
 
         public void Save()
         {
