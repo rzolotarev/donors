@@ -8,12 +8,12 @@ namespace Donations
     [Serializable]
     public class Node
     {
-        public string Value { get; set; }
+        public string Key { get; set; }
         public Node Next { get; set; }
         public Page NextLess { get; set; }
         public Page NextGreater { get; set; }
         public Page Page { get; set; }
-        public long Offset { get; set; }
+        public long Position { get; set; }
         public long Length { get; set; }
     }
 }

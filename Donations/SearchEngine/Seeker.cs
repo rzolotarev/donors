@@ -17,7 +17,7 @@ namespace Donations.SearchEngine
             var current = page.Head;
             while(current != null)
             {
-                if (current.Value == id)
+                if (current.Key == id)
                     return current;
 
                 current = current.Next;
@@ -52,14 +52,14 @@ namespace Donations.SearchEngine
                 if (currentNode.NextGreater == null && currentNode.NextLess == null)
                     return page;
 
-                var compared = string.Compare(value, currentNode.Value);
+                var compared = string.Compare(value, currentNode.Key);
                 if (compared < 0)
                     return FindPage(value, currentNode.NextLess.FileName);
 
                 while (currentNode.Next != null)
                 {
-                    var compared1 = string.Compare(value, currentNode.Value);                    
-                    var compared2 = string.Compare(value, currentNode.Next.Value);
+                    var compared1 = string.Compare(value, currentNode.Key);                    
+                    var compared2 = string.Compare(value, currentNode.Next.Key);
                     if (compared1 >= 0 && compared2 < 0)
                     {
                         if (currentNode.NextGreater != null)

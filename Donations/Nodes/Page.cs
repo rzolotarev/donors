@@ -40,7 +40,7 @@ namespace Donations.Nodes
             if (current.Next == null)
             {
                 Count++;
-                var compared = string.Compare(current.Value, node.Value);
+                var compared = string.Compare(current.Key, node.Key);
                 if (compared <= 0)
                 {
                     page.Head.Next = node;
@@ -54,8 +54,8 @@ namespace Donations.Nodes
             }
             while (current.Next != null)
             {
-                var comparedLess = string.Compare(node.Value, current.Value);
-                var comparedGreater = string.Compare(node.Value, current.Next.Value);
+                var comparedLess = string.Compare(node.Key, current.Key);
+                var comparedGreater = string.Compare(node.Key, current.Next.Key);
                 if (comparedLess < 0 && current == page.Head)
                 {
                     Count++;
@@ -98,7 +98,7 @@ namespace Donations.Nodes
             Count = edge;
 
             // creating new node
-            var parentNode = new Node() { Value = newPage.Head.Value };
+            var parentNode = new Node() { Key = newPage.Head.Key };
             parentNode.NextLess = this;
             parentNode.NextGreater = newPage;
 
@@ -112,7 +112,7 @@ namespace Donations.Nodes
                 newPage.Parent = parentNode;
 
             // added new node
-            var compared = string.Compare(newPage.Head.Value, node.Value);
+            var compared = string.Compare(newPage.Head.Key, node.Key);
             if (compared > 0)
                 SimpleAdd(node, this);
             else
@@ -141,7 +141,7 @@ namespace Donations.Nodes
 
         public static void AddNode(Node node)
         {
-            var page = Seeker.FindPage(node.Value, RootPagePath);
+            var page = Seeker.FindPage(node.Key, RootPagePath);
             page.Add(node);
         }
 
