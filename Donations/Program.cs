@@ -1,4 +1,4 @@
-﻿using Donations.BuildingIndex;
+﻿using Donations.IndexBuilders;
 using Donations.Nodes;
 using Donations.SearchEngine;
 using System;
@@ -28,7 +28,7 @@ namespace Donations
                             var donation = sr.ReadLine().Split(',');                            
                             var node = Seeker.FindNode(donation[0]);
                             
-                            donorReader.BaseStream.Position = node.Offset;
+                            donorReader.BaseStream.Position = node.Position;
                             donorReader.DiscardBufferedData();
 
                             var buffer = new char[node.Length];
