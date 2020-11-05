@@ -74,9 +74,10 @@ namespace Donations.Nodes
                 current = current.Next;
 
             var newPage = new Page();
+            newPage.IsLeaf = true;
             newPage.Add(current.Next);
             newPage.MarkPageForNodes(current.Next);
-
+            
             node.NextLess = node.OwningPage;
             node.NextGreater = newPage;
             if (ParentPage == null)
